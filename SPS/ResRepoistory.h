@@ -8,6 +8,6 @@ public:
 	ResRepoistory();
 	~ResRepoistory();
 	map<int, Resource> resList;
-	bool getRes(int id,int length,bool& status);
+	bool getRes(int id,int length);
 };
 

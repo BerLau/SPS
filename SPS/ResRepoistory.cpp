@@ -23,7 +23,7 @@ ResRepoistory::~ResRepoistory()
 {
 }
 
-bool ResRepoistory::getRes(int id,int length,bool& status)
+bool ResRepoistory::getRes(int id,int length)
 {
-	return resList[id].get(length,status);
+	return resList[id].get(length);
 }

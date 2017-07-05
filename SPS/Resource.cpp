@@ -13,12 +13,12 @@ Resource::~Resource()
 {
 }
 
-bool Resource::get(int length,bool& status)
+bool Resource::get(int length)
 {
 	if (status == ResStatus::FREE)
 	{
 		lock();
-		std::thread th_unlock(&Resource::release, this, length,status);
+		std::thread th_unlock(&Resource::release, this, length);
 		th_unlock.detach();
 		return true;
 	}
@@ -28,13 +28,12 @@ bool Resource::get(int length,bool& status)
 	}
 }
 
-void Resource::release(int length,bool& status)
+void Resource::release(int length)
 {
 	Sleep(length);
 	if (status = ResStatus::LOCKED)
 	{
 		unlock();
-		status = false;
 	}
 }
 
