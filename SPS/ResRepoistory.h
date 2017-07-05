@@ -7,8 +7,7 @@ class ResRepoistory
 public:
 	ResRepoistory();
 	~ResRepoistory();
-	static map<int, Resource> resList;
-	bool getRes(int id);
-	void releaseRes(int id);
+	map<int, Resource> resList;
+	bool getRes(int id,int length,bool& status);
 };
 

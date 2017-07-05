@@ -1,6 +1,6 @@
 #pragma once
 #include <list>
-#include "Resource.h"
+#include "ResRepoistory.h"
 using namespace std;
 class SProcess
 {
@@ -11,8 +11,8 @@ public:
 	virtual void doJob();
 	int priority;
 	list<int> tasks;
+	bool taskStatus;
 private:
-	bool getResource(int r_id);
-	void releaseResource(int r_id);
+	bool getResource(ResRepoistory& repo, int r_id, int length);
 };
 

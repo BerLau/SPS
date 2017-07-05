@@ -23,17 +23,25 @@ SProcess::SProcess(int p)
 
 SProcess::~SProcess()
 {
+
 }
 
 void SProcess::doJob()
 {
+	if (taskStatus) {
+		if()
+	}
+	else
+	{
+		tasks.pop_front();
+		if (MUtil::getRadom(20) == 0) {
+
+		}
+	}
+	
 }
 
-bool SProcess::getResource(int r_id)
+bool SProcess::getResource(ResRepoistory& repo, int r_id, int length)
 {
-
-}
-
-void SProcess::releaseResource(int r_id)
-{
+	return repo.getRes(r_id,length,taskStatus);
 }

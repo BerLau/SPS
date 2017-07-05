@@ -1,5 +1,6 @@
 #include "Resource.h"
-
+#include <Windows.h>
+#include <thread>
 
 
 Resource::Resource()
@@ -12,11 +13,13 @@ Resource::~Resource()
 {
 }
 
-bool Resource::get()
+bool Resource::get(int length,bool& status)
 {
 	if (status == ResStatus::FREE)
 	{
 		lock();
+		std::thread th_unlock(&Resource::release, this, length,status);
+		th_unlock.detach();
 		return true;
 	}
 	else
@@ -25,11 +28,13 @@ bool Resource::get()
 	}
 }
 
-void Resource::release()
+void Resource::release(int length,bool& status)
 {
+	Sleep(length);
 	if (status = ResStatus::LOCKED)
 	{
 		unlock();
+		status = false;
 	}
 }
 

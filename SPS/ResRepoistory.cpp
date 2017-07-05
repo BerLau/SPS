@@ -23,11 +23,7 @@ ResRepoistory::~ResRepoistory()
 {
 }
 
-bool ResRepoistory::getRes(int id)
+bool ResRepoistory::getRes(int id,int length,bool& status)
 {
-	return false;
-}
-
-void ResRepoistory::releaseRes(int id)
-{
+	return resList[id].get(length,status);
 }

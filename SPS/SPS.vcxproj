@@ -124,6 +124,7 @@
     <ClInclude Include="SProcess.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="entrace.cpp" />
     <ClCompile Include="InterruptRegister.cpp" />
     <ClCompile Include="IOResource.cpp" />
     <ClCompile Include="LeisureProcess.cpp" />

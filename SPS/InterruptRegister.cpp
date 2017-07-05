@@ -81,7 +81,8 @@ ItrpType InterruptRegister::getItrpType()
 	case 16:
 		return ItrpType::REVIVED;
 	default:
-		break;//;
+		throw;
+		break;
 	}
 }
 
