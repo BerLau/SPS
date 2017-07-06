@@ -16,10 +16,10 @@ public:
 	SProcess();
 	SProcess(int p);
 	~SProcess();
-	virtual ItrpType doJob();
+	virtual ItrpType doJob(ResRepoistory& res);
 	int priority;
 	list<Task> tasks;
 private:
-	bool getResource(ResRepoistory& repo, int r_id, int length);
+	bool getResource(ResRepoistory& repo, Task& r, int length);
 };
 

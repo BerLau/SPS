@@ -5,6 +5,7 @@ class LeisureProcess :
 {
 public:
 	LeisureProcess();
+	virtual ItrpType doJob(ResRepoistory& res);
 	~LeisureProcess();
 };
 

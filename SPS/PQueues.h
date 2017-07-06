@@ -11,7 +11,7 @@ public:
 	list<SProcess> Queue_BLOCKED;
 	list<SProcess> Queue_CREATING;
 	list<SProcess> Queue_RUNNING;
-	list<SProcess> Queue_READY[6];
+	list<SProcess> Queue_READY[7];
 
 };
 

@@ -27,7 +27,7 @@ SProcess::~SProcess()
 
 }
 
-ItrpType SProcess::doJob()
+ItrpType SProcess::doJob(ResRepoistory& res)
 {
 	
 	if (MUtil::getRadom(20) == 0) {
@@ -37,12 +37,19 @@ ItrpType SProcess::doJob()
 		if (tasks.empty) {
 			return FINISHED;
 		}
+		else
+		{
+			if (getResource(res, tasks.front(), MUtil::getRadom(10000) + 5000))
+			{
+
+			}
+		}
 	}
 
 	return NORMAL;
 }
 
-bool SProcess::getResource(ResRepoistory& repo, int r_id, int length)
+bool SProcess::getResource(ResRepoistory& repo, Task& r, int length)
 {
-	return repo.getRes(r_id, length);
+	return repo.getRes(r, length);
 }

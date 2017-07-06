@@ -2,8 +2,13 @@
 
 
 
-LeisureProcess::LeisureProcess()
+LeisureProcess::LeisureProcess():SProcess(6)
 {
+}
+
+ItrpType LeisureProcess::doJob(ResRepoistory& res)
+{
+	return NORMAL;
 }
 
 
