@@ -1,12 +1,5 @@
 #pragma once
-enum ItrpType
-{
-	TIMEOUT,
-	CREATED,
-	BLOCKED,
-	FINISHED,
-	REVIVED
-};
+#include "MUtil.h"
 class InterruptRegister
 {
 public:

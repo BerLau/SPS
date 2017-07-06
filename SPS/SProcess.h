@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include "ResRepoistory.h"
+#include "InterruptRegister.h"
 using namespace std;
 
 struct Task
@@ -15,7 +16,7 @@ public:
 	SProcess();
 	SProcess(int p);
 	~SProcess();
-	virtual void doJob();
+	virtual ItrpType doJob();
 	int priority;
 	list<Task> tasks;
 private:
