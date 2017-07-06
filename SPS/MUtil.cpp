@@ -20,6 +20,7 @@ int MUtil::Type2Int(ItrpType type)
 		case BLOCKED:return 4;
 		case FINISHED:return 8;
 		case REVIVED:return 16;
+		case REALTIME:return 32;
 		default: return 0;
 	}
 }
@@ -33,6 +34,7 @@ ItrpType MUtil::Int2Type(int i)
 		case 4:return BLOCKED;
 		case 8:return FINISHED;
 		case 16:return REVIVED;
+		case 32:return REALTIME;
 		default:return NORMAL;
 	}
 }

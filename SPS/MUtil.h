@@ -8,7 +8,8 @@ enum ItrpType
 	CREATED,
 	BLOCKED,
 	FINISHED,
-	REVIVED
+	REVIVED,
+	REALTIME
 };
 class MUtil
 {

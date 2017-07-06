@@ -6,7 +6,7 @@ public:
 	MasterProcess();
 	~MasterProcess();
 	void onTimeOut(PQueues& queues);
-	void onNewProcess(PQueues& queues);
+	ItrpType onNewProcess(PQueues& queues);
 	void onProcessBlocked(PQueues& queues);
 	void onProcessRevived(PQueues& queues);
 	void onProcessTerminated(PQueues& queues);
