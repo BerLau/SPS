@@ -42,7 +42,7 @@ void MasterProcess::onTimeOut(PQueues & queues)
 
 }
 
-ItrpType MasterProcess::onNewProcess(PQueues & queues)
+void MasterProcess::onNewProcess(PQueues & queues)
 {
 	ItrpType type = NORMAL;
 	while (!queues.Queue_CREATING.empty)
@@ -51,23 +51,41 @@ ItrpType MasterProcess::onNewProcess(PQueues & queues)
 		queues.Queue_READY[item.priority].push_back(item);
 		queues.Queue_CREATING.pop_front();
 		if (queues.Queue_RUNNING.front().priority > 2) {
-			type=
+			type = REALTIME;
 		}
+	}
+	if (type == REALTIME) {
+		onTimeOut(queues);
 	}
 }
 
 void MasterProcess::onProcessBlocked(PQueues & queues)
 {
+	if (!queues.Queue_RUNNING.empty)
+	{
+		SProcess& item = queues.Queue_RUNNING.front();
+		queues.Queue_BLOCKED[item.p_id] = item;
+		queues.Queue_RUNNING.pop_front();
+		onTimeOut(queues);
+	}
 }
 
-void MasterProcess::onProcessRevived(PQueues & queues)
+void MasterProcess::onProcessRevived(PQueues & queues,int id)
 {
+	if (queues.Queue_BLOCKED.find(id) != queues.Queue_BLOCKED.end()) {
+		SProcess item = queues.Queue_BLOCKED[id];
+		queues.Queue_READY[item.priority].push_back(item);
+		queues.Queue_BLOCKED.erase(id);
+	}
 }
 
 void MasterProcess::onProcessTerminated(PQueues & queues)
 {
-}
-
-void MasterProcess::onRealtimeProc(PQueues & queues)
-{
+	if (!queues.Queue_RUNNING.empty)
+	{
+		SProcess& item = queues.Queue_RUNNING.front();
+		queues.Queue_FINISHED.push_back(item);
+		queues.Queue_RUNNING.pop_front();
+		onTimeOut(queues);
+	}
 }

@@ -14,9 +14,10 @@ class SProcess
 {
 public:
 	SProcess();
-	SProcess(int p);
+	SProcess(int p,int id);
 	~SProcess();
 	virtual ItrpType doJob(ResRepoistory& res);
+	int p_id;
 	int priority;
 	list<Task> tasks;
 private:

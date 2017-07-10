@@ -9,9 +9,10 @@ SProcess::SProcess()
 {
 }
 
-SProcess::SProcess(int p)
+SProcess::SProcess(int p,int id)
 {
 	priority = p;
+	p_id = p_id;
 	int len = MUtil::getRadom(20)+5;
 	for (int i = 0; i < len; i++)
 	{
