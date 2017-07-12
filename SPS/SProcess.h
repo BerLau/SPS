@@ -22,5 +22,6 @@ public:
 	list<Task> tasks;
 private:
 	bool getResource(ResRepoistory& repo, Task& r, int length);
+	void releaseRes(ResRepoistory& repo, Task& r);
 };
 

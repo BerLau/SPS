@@ -32,17 +32,17 @@ ItrpType SProcess::doJob(ResRepoistory& res)
 {
 	
 	if (MUtil::getRadom(20) == 0) {
-		if (tasks.front().IsFinished) {
-			tasks.pop_front();
-		}
 		if (tasks.empty) {
 			return FINISHED;
 		}
 		else
 		{
-			if (getResource(res, tasks.front(), MUtil::getRadom(10000) + 5000))
+			if (tasks.front().IsFinished) {
+				tasks.pop_front();
+			}
+			if (!getResource(res, tasks.front(), MUtil::getRadom(10000) + 5000))
 			{
-
+				return BLOCKED;
 			}
 		}
 	}
@@ -52,5 +52,9 @@ ItrpType SProcess::doJob(ResRepoistory& res)
 
 bool SProcess::getResource(ResRepoistory& repo, Task& r, int length)
 {
-	return repo.getRes(r, length);
+	return repo.getRes(r.ResId, length);
+}
+
+void SProcess::releaseRes(ResRepoistory & repo, Task & r)
+{
 }

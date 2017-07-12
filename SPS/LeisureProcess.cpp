@@ -2,7 +2,7 @@
 
 
 
-LeisureProcess::LeisureProcess():SProcess(6)
+LeisureProcess::LeisureProcess():SProcess(6,0)
 {
 }
 

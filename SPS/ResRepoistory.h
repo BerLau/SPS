@@ -8,6 +8,7 @@ public:
 	ResRepoistory();
 	~ResRepoistory();
 	map<int, Resource> resList;
-	bool getRes(int id,int length);
+	bool getRes(int id);
+	void releaseRes(int id);
 };
 
