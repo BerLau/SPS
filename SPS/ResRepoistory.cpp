@@ -27,3 +27,8 @@ bool ResRepoistory::getRes(int id)
 {
 	return resList[id].get();
 }
+
+void ResRepoistory::releaseRes(int id)
+{
+	resList[id].release();
+}

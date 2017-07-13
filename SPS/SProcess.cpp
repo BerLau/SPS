@@ -2,6 +2,8 @@
 #include "MUtil.h"
 #include "IOResource.h"
 #include "SharedResource.h"
+#include <thread>
+#include <Windows.h>
 
 
 
@@ -32,7 +34,7 @@ ItrpType SProcess::doJob(ResRepoistory& res)
 {
 	
 	if (MUtil::getRadom(20) == 0) {
-		if (tasks.empty) {
+		if (tasks.empty()) {
 			return FINISHED;
 		}
 		else
@@ -52,9 +54,20 @@ ItrpType SProcess::doJob(ResRepoistory& res)
 
 bool SProcess::getResource(ResRepoistory& repo, Task& r, int length)
 {
-	return repo.getRes(r.ResId, length);
+	if (repo.getRes(r.ResId)) {
+		std::thread th_release(&SProcess::releaseRes, this, repo, r, length);
+		th_release.detach();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
-void SProcess::releaseRes(ResRepoistory & repo, Task & r)
+void SProcess::releaseRes(ResRepoistory & repo, Task & r,int length)
 {
+	Sleep(length);
+	repo.releaseRes(r.ResId);
+	r.IsFinished = true;
 }

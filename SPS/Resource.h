@@ -12,8 +12,8 @@ public:
 	~Resource();
 	ResStatus status;
 	virtual bool get();
-protected:
 	virtual void release();
+protected:
 	void lock();
 	void unlock();
 };

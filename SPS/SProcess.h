@@ -2,7 +2,6 @@
 #include <list>
 #include "ResRepoistory.h"
 #include "InterruptRegister.h"
-using namespace std;
 
 struct Task
 {
@@ -19,9 +18,9 @@ public:
 	virtual ItrpType doJob(ResRepoistory& res);
 	int p_id;
 	int priority;
-	list<Task> tasks;
+	std::list<Task> tasks;
 private:
 	bool getResource(ResRepoistory& repo, Task& r, int length);
-	void releaseRes(ResRepoistory& repo, Task& r);
+	void releaseRes(ResRepoistory& repo, Task& r,int length);
 };
 

@@ -1,6 +1,4 @@
 #include "Resource.h"
-#include <Windows.h>
-#include <thread>
 
 
 Resource::Resource()
