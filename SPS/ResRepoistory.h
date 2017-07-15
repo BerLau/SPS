@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <list>
 #include "Resource.h"
 using namespace std;
 class ResRepoistory

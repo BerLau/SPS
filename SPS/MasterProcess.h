@@ -8,7 +8,7 @@ public:
 	void onTimeOut(PQueues& queues);
 	void onNewProcess(PQueues& queues);
 	void onProcessBlocked(PQueues& queues);
-	void onProcessRevived(PQueues& queues,int id);
+	void onProcessRevived(PQueues& queues, ResRepoistory& res);
 	void onProcessTerminated(PQueues& queues);
 };
 

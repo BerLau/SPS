@@ -64,18 +64,24 @@ void MasterProcess::onProcessBlocked(PQueues & queues)
 	if (!queues.Queue_RUNNING.empty())
 	{
 		SProcess& item = queues.Queue_RUNNING.front();
-		queues.Queue_BLOCKED[item.p_id] = item;
+		queues.Queue_BLOCKED.push_back(item);
 		queues.Queue_RUNNING.pop_front();
 		onTimeOut(queues);
 	}
 }
 
-void MasterProcess::onProcessRevived(PQueues & queues,int id)
+void MasterProcess::onProcessRevived(PQueues & queues,ResRepoistory& res)
 {
-	if (queues.Queue_BLOCKED.find(id) != queues.Queue_BLOCKED.end()) {
-		SProcess item = queues.Queue_BLOCKED[id];
-		queues.Queue_READY[item.priority].push_back(item);
-		queues.Queue_BLOCKED.erase(id);
+	auto itor = queues.Queue_BLOCKED.begin();
+	while(itor != queues.Queue_BLOCKED.end()) {
+		if (res.resList[itor->tasks.front().ResId].status == FREE) {
+			queues.Queue_READY[itor->priority].push_back(*itor);
+			queues.Queue_BLOCKED.erase(itor);
+		}
+		else
+		{
+			++itor;
+		}
 	}
 }
 
