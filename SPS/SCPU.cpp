@@ -18,7 +18,7 @@ SCPU::~SCPU()
 {
 }
 
-void SCPU::run(SProcess & p, ResRepoistory& res, InterruptRegister& reg)
+void SCPU::run(SProcess& p, ResRepoistory& res, InterruptRegister& reg)
 {
 	reg.setRecord(p.doJob(res));
 }

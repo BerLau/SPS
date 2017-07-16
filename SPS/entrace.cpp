@@ -19,8 +19,11 @@ int main() {
 	PQueues queues = PQueues();
 	SCPU cpu = SCPU();
 	MasterProcess mp = MasterProcess();
-	for (int i = 0; i < 20; i++) {
-		SProcess p = SProcess(3+MUtil::getRadom(3), id_seed);
+	SProcess p = SProcess(0, id_seed);
+	id_seed++;
+	queues.Queue_CREATING.push_back(p);
+	for (int i = 0; i < 8; i++) {
+		SProcess p = SProcess(1+MUtil::getRadom(6), id_seed);
 		id_seed++;
 		queues.Queue_CREATING.push_back(p);
 	}
@@ -28,7 +31,12 @@ int main() {
 	int runl = 0;
 	while (true) {
 		cpu.run(queues.Queue_RUNNING.front(), resp, reg);
-		if (cpu.checkOut(reg)) {
+		runl += cpu.commandLen;
+		if (runl == cpu.period*((queues.Queue_RUNNING.front().priority + 1))) {
+			reg.setRecord(TIMEOUT);
+			runl = 0;
+		}
+		if (cpu.checkOut(reg,resp)) {
 			while (reg.hasRecord()) {
 				switch (reg.getItrpType())
 				{
@@ -46,7 +54,7 @@ int main() {
 				} break;
 				case TERMINATE: {
 					mp.onProcessTerminated(queues);
-					reg.reset(FINISHED);
+					reg.reset(TERMINATE);
 				} break;
 				case REVIVED: {
 					mp.onProcessRevived(queues,resp);
@@ -58,11 +66,6 @@ int main() {
 				default: break;
 				}
 			}
-		}
-		runl += cpu.commandLen;
-		if (runl == cpu.period*((queues.Queue_RUNNING.front().priority+1))) {
-			reg.setRecord(TIMEOUT);
-			runl = 0;
 		}
 		cout << queues.Queue_RUNNING.front().p_id << endl;
 		Sleep(cpu.commandLen);

@@ -15,11 +15,11 @@ SProcess::SProcess(int pri,int id)
 {
 	priority = pri;
 	p_id = id;
-	int len = MUtil::getRadom(5)+5;
+	int len = MUtil::getRadom(5);
 	for (int i = 0; i < len; i++)
 	{
 		int res = MUtil::getRadom(5);//
-		Task t = { res,FRESH };
+		Task t = { res,FRESH};
 		tasks.push_back(t);
 	}
 }
@@ -33,7 +33,7 @@ SProcess::~SProcess()
 ItrpType SProcess::doJob(ResRepoistory& res)
 {
 	
-	if (MUtil::getRadom(5) == 0) {
+	if (MUtil::getRadom(8) == 0) {
 		if (tasks.empty()) {
 			return TERMINATE;
 		}
@@ -48,12 +48,14 @@ ItrpType SProcess::doJob(ResRepoistory& res)
 				}
 				else
 				{
+					std::cout << "locking  " << tasks.front().ResId << std::endl;
 					tasks.front().status = WORKING;
 				}
 			}break;
 			case WORKING: {
 				if (MUtil::getRadom(5) == 0) {
 					releaseRes(res, tasks.front().ResId);
+					std::cout << "unlocking  " << tasks.front().ResId << std::endl;
 					tasks.front().status = FINISHED;
 				}
 			}break;

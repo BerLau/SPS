@@ -77,8 +77,8 @@ void MasterProcess::onProcessRevived(PQueues & queues,ResRepoistory& res)
 		while (itor != queues.Queue_BLOCKED.end()) {
 			if (res.resList[itor->tasks.front().ResId].status == FREE) {
 				SProcess p = *itor;
-				queues.Queue_READY[itor->priority].push_back(*itor);
-				queues.Queue_BLOCKED.erase(itor);
+				queues.Queue_BLOCKED.erase(itor++);
+				queues.Queue_READY[p.priority].push_back(p);
 			}
 			else
 			{

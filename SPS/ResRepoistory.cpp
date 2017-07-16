@@ -36,11 +36,14 @@ void ResRepoistory::releaseRes(int id)
 bool ResRepoistory::BlockingCheck()
 {
 	bool rs = false;
+	if (checkingList.empty()) {
+		return false;
+	}
 	auto itor = checkingList.begin();
 	while (itor != checkingList.end())
 	{
 		if (resList[*itor].status = FREE) {
-			checkingList.erase(itor);
+			checkingList.erase(itor++);
 			rs = true;
 		}
 		else
