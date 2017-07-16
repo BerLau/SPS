@@ -3,24 +3,25 @@
 #include "ResRepoistory.h"
 #include "InterruptRegister.h"
 
+enum TaskStatus {FRESH,WORKING,FINISHED};
 struct Task
 {
 	int ResId;
-	bool IsFinished;
+	TaskStatus status;
 };
 
 class SProcess
 {
 public:
 	SProcess();
-	SProcess(int p,int id);
+	SProcess(int pri,int id);
 	~SProcess();
 	virtual ItrpType doJob(ResRepoistory& res);
 	int p_id;
 	int priority;
 	std::list<Task> tasks;
 private:
-	bool getResource(ResRepoistory& repo, Task& r, int length);
-	void releaseRes(ResRepoistory& repo, Task& r,int length);
+	bool getResource(ResRepoistory& repo, int r);
+	void releaseRes(ResRepoistory& repo, int r);
 };
 

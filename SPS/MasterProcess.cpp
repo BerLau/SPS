@@ -50,7 +50,7 @@ void MasterProcess::onNewProcess(PQueues & queues)
 		SProcess& item = queues.Queue_CREATING.front();
 		queues.Queue_READY[item.priority].push_back(item);
 		queues.Queue_CREATING.pop_front();
-		if (queues.Queue_RUNNING.front().priority > 2) {
+		if (item.priority <= 2) {
 			type = REALTIME;
 		}
 	}
@@ -72,17 +72,21 @@ void MasterProcess::onProcessBlocked(PQueues & queues)
 
 void MasterProcess::onProcessRevived(PQueues & queues,ResRepoistory& res)
 {
-	auto itor = queues.Queue_BLOCKED.begin();
-	while(itor != queues.Queue_BLOCKED.end()) {
-		if (res.resList[itor->tasks.front().ResId].status == FREE) {
-			queues.Queue_READY[itor->priority].push_back(*itor);
-			queues.Queue_BLOCKED.erase(itor);
-		}
-		else
-		{
-			++itor;
+	if (!queues.Queue_BLOCKED.empty()) {
+		auto itor = queues.Queue_BLOCKED.begin();
+		while (itor != queues.Queue_BLOCKED.end()) {
+			if (res.resList[itor->tasks.front().ResId].status == FREE) {
+				SProcess p = *itor;
+				queues.Queue_READY[itor->priority].push_back(*itor);
+				queues.Queue_BLOCKED.erase(itor);
+			}
+			else
+			{
+				++itor;
+			}
 		}
 	}
+	
 }
 
 void MasterProcess::onProcessTerminated(PQueues & queues)
@@ -95,3 +99,4 @@ void MasterProcess::onProcessTerminated(PQueues & queues)
 		onTimeOut(queues);
 	}
 }
+

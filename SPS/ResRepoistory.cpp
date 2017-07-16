@@ -32,3 +32,21 @@ void ResRepoistory::releaseRes(int id)
 {
 	resList[id].release();
 }
+
+bool ResRepoistory::BlockingCheck()
+{
+	bool rs = false;
+	auto itor = checkingList.begin();
+	while (itor != checkingList.end())
+	{
+		if (resList[*itor].status = FREE) {
+			checkingList.erase(itor);
+			rs = true;
+		}
+		else
+		{
+			++itor;
+		}
+	}
+	return rs;
+}

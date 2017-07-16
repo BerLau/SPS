@@ -11,5 +11,7 @@ public:
 	map<int, Resource> resList;
 	bool getRes(int id);
 	void releaseRes(int id);
+	bool BlockingCheck();
+	list<int> checkingList;
 };
 

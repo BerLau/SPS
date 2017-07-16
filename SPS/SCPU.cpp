@@ -4,6 +4,13 @@
 
 SCPU::SCPU()
 {
+	commandLen=100;
+	period=500;
+}
+SCPU::SCPU(int comm,int peri)
+{
+	commandLen = comm;
+	period = peri;
 }
 
 
@@ -14,30 +21,12 @@ SCPU::~SCPU()
 void SCPU::run(SProcess & p, ResRepoistory& res, InterruptRegister& reg)
 {
 	reg.setRecord(p.doJob(res));
-	if (blockingCheck(res)) {
+}
+
+bool SCPU::checkOut(InterruptRegister& reg, ResRepoistory& res)
+{
+	if (res.BlockingCheck()) {
 		reg.setRecord(REVIVED);
 	}
-}
-
-bool SCPU::checkOut(InterruptRegister& reg)
-{
 	return reg.hasRecord();
-}
-
-bool SCPU::blockingCheck(ResRepoistory& res)
-{
-	bool rs = false;
-	auto itor = checkingList.begin();
-	while (itor!=checkingList.end())
-	{
-		if (res.resList[*itor].status = FREE) {
-			rs = true;
-			checkingList.erase(itor);
-		}
-		else
-		{
-			itor++;
-		}
-	}
-	return rs;
 }

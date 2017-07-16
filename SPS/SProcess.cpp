@@ -11,15 +11,15 @@ SProcess::SProcess()
 {
 }
 
-SProcess::SProcess(int p,int id)
+SProcess::SProcess(int pri,int id)
 {
-	priority = p;
-	p_id = p_id;
-	int len = MUtil::getRadom(20)+5;
+	priority = pri;
+	p_id = id;
+	int len = MUtil::getRadom(5)+5;
 	for (int i = 0; i < len; i++)
 	{
-		int res = MUtil::getRadom(20);
-		Task t = { res,false};
+		int res = MUtil::getRadom(5);//
+		Task t = { res,FRESH };
 		tasks.push_back(t);
 	}
 }
@@ -33,18 +33,35 @@ SProcess::~SProcess()
 ItrpType SProcess::doJob(ResRepoistory& res)
 {
 	
-	if (MUtil::getRadom(20) == 0) {
+	if (MUtil::getRadom(5) == 0) {
 		if (tasks.empty()) {
-			return FINISHED;
+			return TERMINATE;
 		}
 		else
 		{
-			if (tasks.front().IsFinished) {
-				tasks.pop_front();
-			}
-			if (!getResource(res, tasks.front(), MUtil::getRadom(10000) + 5000))
+			switch (tasks.front().status)
 			{
-				return BLOCKED;
+			case FRESH: {
+				if (!getResource(res, tasks.front().ResId)) {
+					res.checkingList.push_back(tasks.front().ResId);
+					return BLOCKED;
+				}
+				else
+				{
+					tasks.front().status = WORKING;
+				}
+			}break;
+			case WORKING: {
+				if (MUtil::getRadom(5) == 0) {
+					releaseRes(res, tasks.front().ResId);
+					tasks.front().status = FINISHED;
+				}
+			}break;
+			case FINISHED: {
+				tasks.pop_front();
+			}break;
+			default:
+				break;
 			}
 		}
 	}
@@ -52,11 +69,9 @@ ItrpType SProcess::doJob(ResRepoistory& res)
 	return NORMAL;
 }
 
-bool SProcess::getResource(ResRepoistory& repo, Task& r, int length)
+bool SProcess::getResource(ResRepoistory& repo, int r)
 {
-	if (repo.getRes(r.ResId)) {
-		std::thread th_release(&SProcess::releaseRes, this, repo, r, length);
-		th_release.detach();
+	if (repo.getRes(r)) {
 		return true;
 	}
 	else
@@ -65,9 +80,7 @@ bool SProcess::getResource(ResRepoistory& repo, Task& r, int length)
 	}
 }
 
-void SProcess::releaseRes(ResRepoistory & repo, Task & r,int length)
+void SProcess::releaseRes(ResRepoistory & repo, int r)
 {
-	Sleep(length);
-	repo.releaseRes(r.ResId);
-	r.IsFinished = true;
+	repo.releaseRes(r);
 }

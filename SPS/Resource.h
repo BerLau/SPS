@@ -1,7 +1,6 @@
 #pragma once
 enum ResStatus
 {
-	WAITING,
 	LOCKED,
 	FREE
 };
